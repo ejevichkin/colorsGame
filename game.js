@@ -25,7 +25,7 @@ function checkAnswer(currentLevel){
         setTimeout (function() {              
             $("body").removeClass("game-over")    
         }, 200);
-        $("h1").text("Game Over, Press Any Key to Restart ");
+        $("h1").text("Вы проиграли, нажмите кнопку для игры");
         startOver();
 
             
@@ -42,7 +42,7 @@ function startOver(){
 function nextSequence() {
     userClickedPattern = [];
     levelCount++; //счет уровня +1
-    $("h1").text("Level " + (levelCount));
+    $("h1").text("Уровень " + (levelCount));
     let randomNumber = Math.floor(Math.random() * buttonColours.length); //рандом
     let randomChosenColour = buttonColours[randomNumber];   //с помощью рандома выбирается цвет из массива цвета
     gamePattern.push(randomChosenColour); //пушим цвет в конец массива игры 
@@ -56,14 +56,26 @@ function playSound(name){  // функция проигрывание звуко
     audioObj.play(); //проигрывание объекта со звуком
 }
 
-$(document).keypress(function() { //функция старта игры по нажатию кнопки
-    if (started == false){
-        $("h1").text("Level " + (levelCount)); //подстановка уровня вместо стартового заголовка игры
-        nextSequence(); //запуск функции "следующий"
-        started = true;
-    }
+const wrapper = document.querySelector('.btn-block');
+
+wrapper.addEventListener('click', (event) => {
+    if (event.target && event.target.tagName == ('BUTTON')){  //event.target это рекомендация гугла, потому что можно кликнуть в объект не имеющий таргета (например в перенос "br")
+        if (started == false){
+            $("h1").text("Level " + (levelCount)); //подстановка уровня вместо стартового заголовка игры
+            nextSequence(); //запуск функции "следующий"
+            started = true;
+        }
+    } 
+});
+
+// $(document).keypress(function() { //функция старта игры по нажатию кнопки
+//     if (started == false){
+//         $("h1").text("Level " + (levelCount)); //подстановка уровня вместо стартового заголовка игры
+//         nextSequence(); //запуск функции "следующий"
+//         started = true;
+//     }
    
-})
+// })
 
 function animatePress(currentColour) {   //функция для анимации кнопок
     let current = $("." + currentColour); //самая
